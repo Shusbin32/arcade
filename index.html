@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Arcade</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Keyframe animation for fade-in effect */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            animation: fadeIn 2s ease-out; /* Apply fade-in animation */
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Game Arcade!</h1>
+    <p>Choose a game to play:</p>
+    <ul id="game-list">
+        <!-- Game links will be dynamically loaded here -->
+    </ul>
+    <script>
+        // Fetch the list of games from the server and display them
+        fetch('/games')
+            .then(response => response.json())
+            .then(data => {
+                const gameList = document.getElementById('game-list');
+                data.games.forEach(game => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = game.path;
+                    link.textContent = game.name;
+                    listItem.appendChild(link);
+                    gameList.appendChild(listItem);
+                });
+            })
+            .catch(err => console.error('Error fetching games:', err));
+    </script>
+</body>
+</html>
